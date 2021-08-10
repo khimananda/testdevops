@@ -1,0 +1,31 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: hashicorp/terraform:0.13.7
+    environment: dev
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan
