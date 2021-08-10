@@ -3,7 +3,7 @@
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
 apt update && apt upgrade -y
-apt install zip unzip openjdk-11-jdk-headless -y
+apt install zip unzip awscli jq openjdk-11-jdk-headless -y
 
 #install cloudwatch agent
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb && dpkg -i amazon-cloudwatch-agent.deb
@@ -66,3 +66,13 @@ echo "${myid}" > ${DATA_DIR}/myid
 systemctl daemon-reload
 systemctl enable zookeeper
 systemctl start zookeeper
+
+#cloudwatch-agent configuration
+n=$(curl -s -o /dev/null -w \"%%{http_code}\" http://169.254.169.254/latest/meta-data/placement/region)
+if [[ $n -eq 200 ]]; then
+    Region=$(curl http://169.254.169.254/latest/meta-data/placement/region)
+else
+    Region=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\\\" '{print $4}')
+fi
+aws ssm get-parameter --name "AmazonCloudWatch-linux" --region $Region  | jq -r ".Parameter.Value" > cloudwatchAgent.json
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -c file:cloudwatchAgent.json -s -a fetch-config -m ec2
