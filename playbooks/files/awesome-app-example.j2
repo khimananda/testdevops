@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+  ServerName {{domain_name}}
+  DocumentRoot /var/www/{{domain_name}}
+  Options -Indexes
+  ErrorLog /var/log/{{log_prefix}}-apache2/error.log
+  CustomLog /var/log/{{log_prefix}}-apache2/access.log Combined
+</VirtualHost>
+
