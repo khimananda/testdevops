@@ -29,7 +29,7 @@
       command: a2dissite 000-default.conf
 
     - name: enable php-fpm.conf in apache2
-      command: a2enconf php7.4-fpm
+      command: a2enconf php7.2-fpm
 
     - name: test the configuration
       command: apache2ctl configtest
