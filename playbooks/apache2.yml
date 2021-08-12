@@ -1,0 +1,71 @@
+---
+- hosts: web
+  become: yes
+  vars: 
+    services: 
+      - apache2
+      - mysql-server
+      - memcached
+    domain_name: "www.example.com "
+    log_prefix: "custom"
+  tasks:
+    - name: Install apache server
+      apt:
+        pkg:
+         - apache2
+         - memcached
+         - php-fpm
+        update_cache: true
+        state: present
+
+    - name: copy the configuration file
+      template:
+        src: "files/awesome-app-example.j2"
+        dest: /etc/apache2/sites-available/awesome-app.conf
+
+    - name: enable configuration
+      command: a2ensite awesome-app.conf
+    - name: disable default conf 
+      command: a2dissite 000-default.conf
+
+    - name: enable php-fpm.conf in apache2
+      command: a2enconf php7.4-fpm
+
+    - name: test the configuration
+      command: apache2ctl configtest
+      register: configtest
+      ignore_errors: true
+
+    - name: restore default configuration
+      command: a2ensite 000-default.conf
+      when: configtest is failed
+    
+    - name: remov the configuration
+      command: a2dissite awesome-app.conf
+      when: configtest is failed
+
+    - name: restart the apache server
+      systemd: 
+        name: "{{item}}"
+        state: restarted
+        enabled: True
+      loop:
+        - apache2
+        - memcached
+        - php7.4-fpm 
+
+    - name: add user 
+      user: 
+       name: "{{item.name}}"
+       group: "{{item.group}}"
+      loop: 
+        - name: ram
+          group: sudo
+        - name: shyam 
+          group: sudo
+
+    - name: deploy the application
+      git: 
+        repo: "https://github.com/khimananda/devops2021.git"
+        dest: "/var/www/awesome-app"
+    

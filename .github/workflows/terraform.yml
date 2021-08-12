@@ -45,5 +45,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
     - run: sudo apt-get update && sudo apt-get install ansible -y
     - run: echo $(ansible --version)
+    - run: ansible-playbook -i ./hosts playbooks/apache2.yml
