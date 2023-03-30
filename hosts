@@ -1,2 +1,2 @@
 [web]
-devops ansible_host=54.211.252.158 ansible_user=ubuntu
+devops ansible_host=54.198.86.195 ansible_user=ubuntu

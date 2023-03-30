@@ -7,7 +7,7 @@ resource "aws_instance" "web_server"{
         delete_on_termination = true
     }
     subnet_id = "subnet-0f57068e078f698aa"
-    vpc_security_group_ids = ["sg-0021696abcb9be08c"]
+    security_groups = ["sg-0021696abcb9be08c"]
     
 
     lifecycle {
