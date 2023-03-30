@@ -64,8 +64,8 @@
         - name: shyam 
           group: sudo
 
-    - name: deploy the application
-      git: 
-        repo: "https://github.com/khimananda/devops2021.git"
-        dest: "/var/www/awesome-app"
+    # - name: deploy the application
+    #   git: 
+    #     repo: "https://github.com/khimananda/devops2021.git"
+    #     dest: "/var/www/awesome-app"
     
