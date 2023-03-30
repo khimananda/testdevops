@@ -5,6 +5,8 @@ on:
     branches:
     - master
   pull_request:
+env: 
+  ANSIBLE_HOST_KEY_CHECKING: False
 
 jobs:
   terraform:
@@ -51,5 +53,6 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - run: sudo apt-get update && sudo apt-get install ansible -y
+    - run: export ANSIBLE_HOST_KEY_CHECKING=False
     - run: echo $(ansible --version)
     - run: ansible-playbook -i ./hosts playbooks/apache2.yml
