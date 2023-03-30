@@ -41,6 +41,7 @@ jobs:
       run: |
         cd terraform
         terraform plan
+        terraform apply -auto-approve
   ansible:
     runs-on: ubuntu-latest
     steps:
