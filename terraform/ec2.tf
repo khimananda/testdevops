@@ -6,8 +6,8 @@ resource "aws_instance" "web_server"{
         volume_size = "20"
         delete_on_termination = true
     }
-    subnet_id = "subnet-0205d7f96edf8370d"
-    security_groups = ["sg-044102dbdf041d9cc"]
+    subnet_id = "subnet-0f57068e078f698aa"
+    security_groups = ["sg-0021696abcb9be08c"]
 
     lifecycle {
         ignore_changes=[
