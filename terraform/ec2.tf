@@ -1,5 +1,5 @@
 resource "aws_instance" "web_server"{
-    ami = "ami-05f7491af5eef733a"
+    ami = data.aws_ami.ubuntu.id
     disable_api_termination = false
     instance_type = "t2.micro" 
     root_block_device {
