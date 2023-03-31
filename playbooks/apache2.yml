@@ -52,7 +52,7 @@
       loop:
         - apache2
         - memcached
-        - php7.2-fpm 
+        - php7.4-fpm 
 
     - name: add user 
       user: 
