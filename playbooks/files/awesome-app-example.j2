@@ -2,7 +2,7 @@
   ServerName {{domain_name}}
   DocumentRoot /var/www/html
   Options -Indexes
-  ErrorLog /var/log/{{log_prefix}}-apache2/error.log
-  CustomLog /var/log/{{log_prefix}}-apache2/access.log Combined
+  ErrorLog /var/log/apache2/{{log_prefix}}-error.log
+  CustomLog /var/log/apache2/{{log_prefix}}-access.log Combined
 </VirtualHost>
 
